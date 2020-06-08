@@ -73,6 +73,11 @@ class ChatActivity : AppCompatActivity() {
         recycler_view.adapter?.itemCount?.minus(1)?.let { recycler_view.scrollToPosition(it) }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        kulaKeyboardHelper.release()
+    }
+
     private inner class MsgListAdapter(val context: Context) : RecyclerView.Adapter<MsgListAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

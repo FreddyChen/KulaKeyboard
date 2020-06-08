@@ -48,7 +48,11 @@ class KulaKeyboardHelper {
 
     fun release() {
         inputPanel?.release()
+        inputPanel = null
         expressionPanel?.release()
+        expressionPanel = null
+        keyboardStatePopupWindow?.dismiss()
+        keyboardStatePopupWindow = null
     }
 
     fun setKeyboardHeight(keyboardHeight: Int): KulaKeyboardHelper {
@@ -134,7 +138,10 @@ class KulaKeyboardHelper {
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationEnd(animation: Animator) {
                 bodyLayout?.requestLayout()
-                (expressionPanel as ViewGroup).requestLayout()
+                expressionPanel?.let {
+                    it as ViewGroup
+                    it.requestLayout()
+                }
             }
 
             override fun onAnimationCancel(animation: Animator) {}

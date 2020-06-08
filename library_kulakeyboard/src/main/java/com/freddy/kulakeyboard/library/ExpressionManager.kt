@@ -21,6 +21,7 @@ class ExpressionManager private constructor() {
     }
 
     companion object {
+        const val NORMAL_COUNT_BY_ROW = 7
         val instance: ExpressionManager by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             ExpressionManager()
         }
@@ -100,26 +101,31 @@ class ExpressionManager private constructor() {
        normalExpressionList.add(Expression(R.drawable.img_expression_67, "\$ne#67^"))
        normalExpressionList.add(Expression(R.drawable.img_expression_68, "\$ne#68^"))
        normalExpressionList.add(Expression(R.drawable.img_expression_69, "\$ne#69^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_70, "\$ne#70^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_71, "\$ne#71^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_72, "\$ne#72^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_73, "\$ne#73^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_74, "\$ne#74^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_75, "\$ne#75^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_76, "\$ne#76^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_77, "\$ne#77^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_78, "\$ne#78^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_79, "\$ne#79^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_80, "\$ne#80^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_81, "\$ne#81^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_82, "\$ne#82^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_83, "\$ne#83^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_84, "\$ne#84^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_85, "\$ne#85^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_86, "\$ne#86^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_87, "\$ne#87^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_88, "\$ne#88^"))
-       normalExpressionList.add(Expression(R.drawable.img_expression_89, "\$ne#89^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_70, "\$ne#70^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_71, "\$ne#71^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_72, "\$ne#72^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_73, "\$ne#73^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_74, "\$ne#74^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_75, "\$ne#75^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_76, "\$ne#76^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_77, "\$ne#77^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_78, "\$ne#78^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_79, "\$ne#79^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_80, "\$ne#80^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_81, "\$ne#81^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_82, "\$ne#82^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_83, "\$ne#83^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_84, "\$ne#84^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_85, "\$ne#85^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_86, "\$ne#86^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_87, "\$ne#87^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_88, "\$ne#88^"))
+//       normalExpressionList.add(Expression(R.drawable.img_expression_89, "\$ne#89^"))
+
+        val emptyCount = NORMAL_COUNT_BY_ROW * 2 +  NORMAL_COUNT_BY_ROW - normalExpressionList.size % NORMAL_COUNT_BY_ROW
+        for(i in 0 until emptyCount) {
+            normalExpressionList.add(Expression(0, "null"))
+        }
     }
 
     fun getNormalExpressionList(): ArrayList<Expression> {
