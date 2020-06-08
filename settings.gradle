@@ -1,0 +1,3 @@
+rootProject.name='KulaKeyboard'
+include ':app'
+include ':library_kulakeyboard'
