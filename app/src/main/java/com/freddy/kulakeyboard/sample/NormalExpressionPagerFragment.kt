@@ -1,18 +1,18 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample
 
 import android.annotation.SuppressLint
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.freddy.kulakeyboard.library.bean.Expression
 import com.freddy.kulakeyboard.library.util.DensityUtil
+import com.freddy.kulakeyboard.sample.adapter.ExpressionListAdapter
+import com.freddy.kulakeyboard.sample.bean.Expression
+import com.freddy.kulakeyboard.sample.manager.ExpressionManager
+import com.freddy.kulakeyboard.sample.widget.TopPaddingDecoration
 import kotlinx.android.synthetic.main.fragment_normal_expression_pager.*
 import java.io.Serializable
 
@@ -28,7 +28,6 @@ import java.io.Serializable
 class NormalExpressionPagerFragment : Fragment() {
 
     private lateinit var layoutManager: GridLayoutManager
-    private val viewMap = hashMapOf<Int, FrameLayout>()
 
     companion object {
         private const val TAG = "NormalExpressionPagerFragment"
@@ -67,9 +66,16 @@ class NormalExpressionPagerFragment : Fragment() {
         recycler_view.setHasFixedSize(true)
         layoutManager = GridLayoutManager(activity, ExpressionManager.NORMAL_COUNT_BY_ROW)
         recycler_view.layoutManager = layoutManager
-        recycler_view.addItemDecoration(TopPaddingDecoration(DensityUtil.dp2px(context!!, 24.0f)))
-//        recycler_view.addItemDecoration(BottomPaddingDecoration(DensityUtil.dp2px(context!!, 56.0f)))
-        val adapter = ExpressionListAdapter(activity!!, expressionList!!)
+        recycler_view.addItemDecoration(
+            TopPaddingDecoration(
+                DensityUtil.dp2px(context!!, 24.0f)
+            )
+        )
+        val adapter =
+            ExpressionListAdapter(
+                activity!!,
+                expressionList!!
+            )
         recycler_view.adapter = adapter
     }
 
@@ -80,30 +86,29 @@ class NormalExpressionPagerFragment : Fragment() {
             @SuppressLint("LongLogTag")
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 try {
-                    val spanCount = layoutManager.spanCount
-                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-                    if ((lastVisibleItemPosition + 1) % spanCount == 0) {
-                        var view = layoutManager.findViewByPosition(lastVisibleItemPosition)!!
-                        view.visibility = View.GONE
+                    val spanCount: Int = layoutManager.spanCount
+                    val lastVisibleItemPosition: Int = layoutManager.findLastVisibleItemPosition()
+                    if ((lastVisibleItemPosition + 1) % spanCount == 0 || (lastVisibleItemPosition + 2) % spanCount == 0) {
+                        var view: View
+                        if ((lastVisibleItemPosition + 1) % spanCount == 0) {
+                            view = layoutManager.findViewByPosition(lastVisibleItemPosition)!!
+                            view.visibility = View.GONE
+                        }
                         view = layoutManager.findViewByPosition(lastVisibleItemPosition - 1)!!
                         view.visibility = View.GONE
                         view = layoutManager.findViewByPosition(lastVisibleItemPosition - spanCount)!!
                         view.visibility = View.GONE
                         view = layoutManager.findViewByPosition(lastVisibleItemPosition - spanCount - 1)!!
                         view.visibility = View.GONE
-                    } else if ((lastVisibleItemPosition + 2) % spanCount == 0) {
-                        val view = layoutManager.findViewByPosition(lastVisibleItemPosition)!!
-                        view.visibility = View.GONE
                     }
-
-                    val lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
-                    if((lastCompletelyVisibleItemPosition + 1) % spanCount == 0) {
-                        var view = layoutManager.findViewByPosition(lastVisibleItemPosition - spanCount * 2)!!
-                        view.visibility = View.VISIBLE
+                    val lastCompletelyVisibleItemPosition: Int = layoutManager.findLastCompletelyVisibleItemPosition()
+                    if ((lastCompletelyVisibleItemPosition + 1) % spanCount == 0 || (lastCompletelyVisibleItemPosition + 2) % spanCount == 0) {
+                        var view: View
+                        if ((lastCompletelyVisibleItemPosition + 1) % spanCount == 0) {
+                            view = layoutManager.findViewByPosition(lastVisibleItemPosition - spanCount * 2)!!
+                            view.visibility = View.VISIBLE
+                        }
                         view = layoutManager.findViewByPosition(lastVisibleItemPosition - spanCount * 2 - 1)!!
-                        view.visibility = View.VISIBLE
-                    }else {
-                        val view = layoutManager.findViewByPosition(lastVisibleItemPosition - spanCount * 2)!!
                         view.visibility = View.VISIBLE
                     }
                 } catch (e: Exception) {

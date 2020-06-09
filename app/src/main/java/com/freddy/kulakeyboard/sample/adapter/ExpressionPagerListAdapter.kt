@@ -1,9 +1,10 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.freddy.kulakeyboard.library.bean.ExpressionType
+import com.freddy.kulakeyboard.sample.NormalExpressionPagerFragment
+import com.freddy.kulakeyboard.sample.bean.ExpressionType
 
 /**
  * @author  FreddyChen
@@ -13,7 +14,7 @@ import com.freddy.kulakeyboard.library.bean.ExpressionType
  * @github  https://github.com/FreddyChen
  * @desc
  */
-class ExpressionPagerListAdapter(activity: FragmentActivity, var expressionTypeList: ArrayList<ExpressionType>) : FragmentStateAdapter(activity) {
+class ExpressionPagerListAdapter(activity: FragmentActivity, private var expressionTypeList: ArrayList<ExpressionType>) : FragmentStateAdapter(activity) {
 
     override fun getItemCount(): Int {
         return if (expressionTypeList.isNullOrEmpty()) 0 else expressionTypeList.size
@@ -21,7 +22,9 @@ class ExpressionPagerListAdapter(activity: FragmentActivity, var expressionTypeL
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> return NormalExpressionPagerFragment.newInstance(expressionTypeList[position].expressionList)
+            0 -> return NormalExpressionPagerFragment.newInstance(
+                expressionTypeList[position].expressionList
+            )
         }
 
         return Fragment()

@@ -1,4 +1,4 @@
-package com.freddy.kulakeyboard.library.bean
+package com.freddy.kulakeyboard.sample.bean
 
 import java.io.Serializable
 
@@ -10,7 +10,7 @@ import java.io.Serializable
  * @github  https://github.com/FreddyChen
  * @desc
  */
-data class Expression(var resId: Int, var unique: String) : Serializable {
+data class Expression(var resId: Int, var unique: String?) : Serializable {
 
     override fun toString(): String {
         return "Expression(resId=$resId, unique='$unique')"

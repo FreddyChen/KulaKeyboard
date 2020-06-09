@@ -1,4 +1,4 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.freddy.kulakeyboard.library.bean.ExpressionType
+import com.freddy.kulakeyboard.library.IPanel
+import com.freddy.kulakeyboard.library.KulaKeyboardHelper
 import com.freddy.kulakeyboard.library.util.DensityUtil
+import com.freddy.kulakeyboard.sample.adapter.ExpressionPagerListAdapter
+import com.freddy.kulakeyboard.sample.adapter.ExpressionTypeListAdapter
+import com.freddy.kulakeyboard.sample.bean.ExpressionType
+import com.freddy.kulakeyboard.sample.manager.ExpressionManager
 import kotlinx.android.synthetic.main.layout_expression_panel.view.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * @author  FreddyChen
@@ -44,7 +46,7 @@ class CExpressionPanel : LinearLayout, IPanel {
         super.onVisibilityChanged(changedView, visibility)
         val layoutParams = layoutParams
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-        layoutParams.height = KulaKeyboardHelper.keyboardHeight + DensityUtil.dp2px(context, 36.0f)
+        layoutParams.height = getPanelHeight()
         setLayoutParams(layoutParams)
     }
 
@@ -56,21 +58,31 @@ class CExpressionPanel : LinearLayout, IPanel {
     }
 
     private fun initData() {
-        expressionTypeList.add(ExpressionType(R.drawable.ic_expression_panel_tab_normal, ExpressionManager.instance.getNormalExpressionList()))
+        expressionTypeList.add(
+            ExpressionType(
+                R.drawable.ic_expression_panel_tab_normal,
+                ExpressionManager.instance.getNormalExpressionList()
+            )
+        )
     }
 
     private fun initRecyclerView() {
-        val expressionTypeListAdapter = ExpressionTypeListAdapter(context, expressionTypeList)
+        val expressionTypeListAdapter =
+            ExpressionTypeListAdapter(
+                context,
+                expressionTypeList
+            )
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = expressionTypeListAdapter
-//        expressionTypeListAdapter.setOnItemClickListener{ _, _, position ->
-//            view_pager.currentItem = position
-//        }
     }
 
     private fun initViewPager() {
-        val expressionPagerListAdapter = ExpressionPagerListAdapter(context as AppCompatActivity, expressionTypeList)
+        val expressionPagerListAdapter =
+            ExpressionPagerListAdapter(
+                context as AppCompatActivity,
+                expressionTypeList
+            )
         view_pager.adapter = expressionPagerListAdapter
         view_pager.isUserInputEnabled = true
     }
@@ -79,16 +91,14 @@ class CExpressionPanel : LinearLayout, IPanel {
         Runnable { visibility = View.INVISIBLE }
 
     override fun reset() {
-        postDelayed(mExpressionPanelInvisibleRunnable, 250)
+        postDelayed(mExpressionPanelInvisibleRunnable, 400)
     }
 
     override fun release() {
     }
 
     override fun getPanelHeight(): Int {
-        return KulaKeyboardHelper.keyboardHeight + DensityUtil.dp2px(
-            context,
-            36.0f
-        )
+        val keyboardHeight = if(App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight(context) / 5 * 2 else App.instance.keyboardHeight
+        return keyboardHeight + DensityUtil.dp2px(context, 36.0f)
     }
 }

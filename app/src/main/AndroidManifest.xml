@@ -22,7 +22,7 @@
             android:name=".LoginActivity"
             android:configChanges="locale|orientation|screenSize|keyboardHidden|navigation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateVisible" />
 
         <activity
             android:name=".ChatActivity"

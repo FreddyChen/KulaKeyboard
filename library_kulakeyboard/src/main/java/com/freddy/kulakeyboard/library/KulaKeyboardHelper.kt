@@ -33,11 +33,12 @@ class KulaKeyboardHelper {
 
     companion object {
         var keyboardHeight = 0
+        var inputPanelHeight = 0
+        var expressionPanelHeight = 0
     }
 
     fun init(context: Context): KulaKeyboardHelper {
         this.context = context
-        setKeyboardHeight(DensityUtil.getScreenHeight(context) / 5 * 2)
         return this
     }
 
@@ -57,6 +58,9 @@ class KulaKeyboardHelper {
 
     fun setKeyboardHeight(keyboardHeight: Int): KulaKeyboardHelper {
         KulaKeyboardHelper.keyboardHeight = keyboardHeight
+        if(inputPanelHeight == 0) {
+            inputPanelHeight = keyboardHeight
+        }
         return this
     }
 
@@ -66,8 +70,15 @@ class KulaKeyboardHelper {
         keyboardStatePopupWindow?.setOnKeyboardStateListener(object :
             KeyboardStatePopupWindow.OnKeyboardStateListener {
             override fun onOpened(keyboardHeight: Int) {
+                KulaKeyboardHelper.keyboardHeight = keyboardHeight
                 inputPanel?.onSoftKeyboardOpened()
                 onKeyboardStateListener?.onOpened(keyboardHeight)
+                inputPanel?.apply {
+                    inputPanelHeight = getPanelHeight()
+                }
+                expressionPanel?.apply {
+                    expressionPanelHeight = getPanelHeight()
+                }
             }
 
             override fun onClosed() {
@@ -83,24 +94,31 @@ class KulaKeyboardHelper {
         return this
     }
 
-    fun bindVoicePanel(panel: IPanel): KulaKeyboardHelper {
+    fun<P : IPanel> bindVoicePanel(panel: P): KulaKeyboardHelper {
         return this
     }
 
-    fun bindInputPanel(panel: IInputPanel): KulaKeyboardHelper {
+    fun<P : IInputPanel> bindInputPanel(panel: P): KulaKeyboardHelper {
         this.inputPanel = panel
+        inputPanelHeight = panel.getPanelHeight()
         panel.setOnInputStateChangedListener(object : OnInputPanelStateChangedListener {
             override fun onShowInputMethodPanel() {
                 if (expressionPanel !is ViewGroup) return
                 GlobalScope.launch(Dispatchers.Main) {
                     delay(250)
-                    (expressionPanel as ViewGroup).visibility = View.INVISIBLE
+                    expressionPanel?.let {
+                        it as ViewGroup
+                        it.visibility = View.INVISIBLE
+                    }
                 }
             }
 
             override fun onShowExpressionPanel() {
                 if (expressionPanel !is ViewGroup) return
-                (expressionPanel as ViewGroup).visibility = View.VISIBLE
+                expressionPanel?.let {
+                    it as ViewGroup
+                    it.visibility = View.VISIBLE
+                }
             }
         })
         panel.setOnLayoutAnimatorHandleListener { fromValue, toValue ->
@@ -109,23 +127,22 @@ class KulaKeyboardHelper {
         return this
     }
 
-    fun bindExpressionPanel(panel: IPanel): KulaKeyboardHelper {
+    fun<P : IPanel> bindExpressionPanel(panel: P): KulaKeyboardHelper {
         this.expressionPanel = panel
+        expressionPanelHeight = panel.getPanelHeight()
         return this
     }
 
-    fun bindMorePanel(panel: IPanel): KulaKeyboardHelper {
+    fun<P : IPanel> bindMorePanel(panel: P): KulaKeyboardHelper {
         return this
     }
 
     @SuppressLint("ObjectAnimatorBinding")
     private fun handlePanelMoveAnimator(fromValue: Float, toValue: Float) {
-        if (bodyLayout == null && expressionPanel == null) {
+        if (bodyLayout == null || expressionPanel == null) {
             return
         }
-        if (expressionPanel !is ViewGroup) {
-            return
-        }
+        if (expressionPanel !is ViewGroup) return
         val bodyLayoutTranslationYAnimator: ObjectAnimator =
             ObjectAnimator.ofFloat(bodyLayout, "translationY", fromValue, toValue)
         val expressionPanelTranslationYAnimator: ObjectAnimator =

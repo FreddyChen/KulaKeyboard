@@ -1,4 +1,4 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.freddy.kulakeyboard.library.bean.Expression
-import com.freddy.kulakeyboard.library.bean.ExpressionType
+import com.freddy.kulakeyboard.sample.R
+import com.freddy.kulakeyboard.sample.bean.ExpressionType
 
 /**
  * @author  FreddyChen
@@ -17,7 +17,7 @@ import com.freddy.kulakeyboard.library.bean.ExpressionType
  * @github  https://github.com/FreddyChen
  * @desc
  */
-class ExpressionTypeListAdapter(val context: Context, var expressionTypeList: ArrayList<ExpressionType>) : RecyclerView.Adapter<ExpressionTypeListAdapter.ViewHolder>() {
+class ExpressionTypeListAdapter(private val context: Context, private var expressionTypeList: ArrayList<ExpressionType>) : RecyclerView.Adapter<ExpressionTypeListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_expression_type, parent, false))

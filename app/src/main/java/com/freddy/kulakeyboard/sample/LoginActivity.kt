@@ -2,8 +2,8 @@ package com.freddy.kulakeyboard.sample
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.freddy.kulakeyboard.sample.utils.SoftKeyboardStateHelper
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -22,7 +22,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        softKeyboardStateHelper = SoftKeyboardStateHelper(layout_main)
+        softKeyboardStateHelper =
+            SoftKeyboardStateHelper(layout_main)
         softKeyboardStateHelper.addSoftKeyboardStateListener(object :
             SoftKeyboardStateHelper.SoftKeyboardStateListener {
 

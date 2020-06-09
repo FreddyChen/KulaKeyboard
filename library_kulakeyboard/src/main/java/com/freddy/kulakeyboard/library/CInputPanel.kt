@@ -7,11 +7,17 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.freddy.kulakeyboard.library.util.DensityUtil
 import com.freddy.kulakeyboard.library.util.UIUtil
 import kotlinx.android.synthetic.main.layout_input_panel.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * @author  FreddyChen
@@ -65,8 +71,11 @@ class CInputPanel : LinearLayout, IInputPanel {
         et_content.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (!isKeyboardOpened) {
-                    UIUtil.requestFocus(et_content)
-                    UIUtil.showSoftInput(context, et_content)
+                    GlobalScope.launch(Dispatchers.Main) {
+                        delay(100)
+                        UIUtil.requestFocus(et_content)
+                        UIUtil.showSoftInput(context, et_content)
+                    }
                     et_content.resetInputType()
                     btn_expression.setNormalImageResId(R.drawable.ic_chat_expression_normal)
                     btn_expression.setPressedImageResId(R.drawable.ic_chat_expression_pressed)
@@ -99,6 +108,13 @@ class CInputPanel : LinearLayout, IInputPanel {
             }
         }
         btn_more.setOnClickListener { }
+        et_content.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                Toast.makeText(context, "发送", Toast.LENGTH_SHORT).show()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
     }
 
     private fun handleAnimator(panelType: PanelType) {
@@ -112,58 +128,62 @@ class CInputPanel : LinearLayout, IInputPanel {
         var fromValue = 0.0f
         var toValue = 0.0f
         when (panelType) {
-            PanelType.INPUT_MOTHOD -> when (lastPanelType) {
-                PanelType.EXPRESSION -> {
-                    fromValue = (-KulaKeyboardHelper.keyboardHeight - DensityUtil.dp2px(context, 36.0f)).toFloat()
-                    toValue = -KulaKeyboardHelper.keyboardHeight.toFloat()
+            PanelType.INPUT_MOTHOD ->
+                when (lastPanelType) {
+                    PanelType.EXPRESSION -> {
+                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                    }
+                    PanelType.MORE -> {
+                    }
+                    PanelType.NONE -> {
+                        fromValue = 0.0f
+                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                    }
+                    else -> {
+                    }
                 }
-                PanelType.MORE -> {
+            PanelType.EXPRESSION ->
+                when (lastPanelType) {
+                    PanelType.INPUT_MOTHOD -> {
+                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                    }
+                    PanelType.MORE -> {
+                    }
+                    PanelType.NONE -> {
+                        fromValue = 0.0f
+                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                    }
+                    else -> {
+                    }
                 }
-                PanelType.NONE -> {
-                    fromValue = 0.0f
-                    toValue = -KulaKeyboardHelper.keyboardHeight.toFloat()
+            PanelType.MORE ->
+                when (lastPanelType) {
+                    PanelType.INPUT_MOTHOD -> {
+                    }
+                    PanelType.EXPRESSION -> {
+                    }
+                    PanelType.NONE -> {
+                    }
+                    else -> {
+                    }
                 }
-                else -> {
+            PanelType.NONE ->
+                when (lastPanelType) {
+                    PanelType.INPUT_MOTHOD -> {
+                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = 0.0f
+                    }
+                    PanelType.EXPRESSION -> {
+                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = 0.0f
+                    }
+                    PanelType.MORE -> {
+                    }
+                    else -> {
+                    }
                 }
-            }
-            PanelType.EXPRESSION -> when (lastPanelType) {
-                PanelType.INPUT_MOTHOD -> {
-                    fromValue = -KulaKeyboardHelper.keyboardHeight.toFloat()
-                    toValue = (-KulaKeyboardHelper.keyboardHeight - DensityUtil.dp2px(context, 36.0f)).toFloat()
-                }
-                PanelType.MORE -> {
-                }
-                PanelType.NONE -> {
-                    fromValue = 0.0f
-                    toValue = (-KulaKeyboardHelper.keyboardHeight - DensityUtil.dp2px(context, 36.0f)).toFloat()
-                }
-                else -> {
-                }
-            }
-            PanelType.MORE -> when (lastPanelType) {
-                PanelType.INPUT_MOTHOD -> {
-                }
-                PanelType.EXPRESSION -> {
-                }
-                PanelType.NONE -> {
-                }
-                else -> {
-                }
-            }
-            PanelType.NONE -> when (lastPanelType) {
-                PanelType.INPUT_MOTHOD -> {
-                    fromValue = -KulaKeyboardHelper.keyboardHeight.toFloat()
-                    toValue = 0.0f
-                }
-                PanelType.EXPRESSION -> {
-                    fromValue = (-KulaKeyboardHelper.keyboardHeight - DensityUtil.dp2px(context, 36.0f)).toFloat()
-                    toValue = 0.0f
-                }
-                PanelType.MORE -> {
-                }
-                else -> {
-                }
-            }
         }
         onLayoutAnimatorHandleListener?.invoke(fromValue, toValue)
         lastPanelType = panelType
@@ -203,7 +223,10 @@ class CInputPanel : LinearLayout, IInputPanel {
         UIUtil.hideSoftInput(context, et_content)
         btn_expression.setNormalImageResId(R.drawable.ic_chat_expression_normal)
         btn_expression.setPressedImageResId(R.drawable.ic_chat_expression_pressed)
-        handleAnimator(PanelType.NONE)
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(100)
+            handleAnimator(PanelType.NONE)
+        }
         isActive = false
     }
 

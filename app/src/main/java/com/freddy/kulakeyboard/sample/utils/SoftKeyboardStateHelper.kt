@@ -1,4 +1,4 @@
-package com.freddy.kulakeyboard.sample
+package com.freddy.kulakeyboard.sample.utils
 
 import android.graphics.Rect
 import android.view.View

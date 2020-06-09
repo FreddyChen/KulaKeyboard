@@ -1,7 +1,6 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample.widget
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @github  https://github.com/FreddyChen
  * @desc
  */
-class BottomPaddingDecoration(private val padding: Int) : RecyclerView.ItemDecoration() {
+class TopPaddingDecoration(private val padding: Int) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -29,21 +28,18 @@ class BottomPaddingDecoration(private val padding: Int) : RecyclerView.ItemDecor
         if(layoutManager is GridLayoutManager) {
             val spanCount = layoutManager.spanCount
             val itemCount = layoutManager.itemCount
-            val startPos: Int
-            val endPos: Int
-            if(itemCount % spanCount == 0) {
-                startPos = itemCount - spanCount
-                endPos = itemCount
+            val startPos = 0
+            val endPos = if(itemCount >= spanCount) {
+                spanCount
             }else {
-                startPos = itemCount - itemCount % spanCount
-                endPos = itemCount
+                itemCount
             }
             if(position in startPos until endPos) {
-                outRect.set(0, 0, 0, padding)
+                outRect.set(0, padding, 0, 0)
             }
         }else if(layoutManager is LinearLayoutManager) {
-            if (position == parent.adapter!!.itemCount - 1) {
-                outRect.set(0, 0, 0, padding)
+            if (position == 0) {
+                outRect.set(0, padding, 0, 0)
             }
         }
     }

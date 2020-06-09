@@ -7,11 +7,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.freddy.kulakeyboard.library.KulaKeyboardHelper
+import com.freddy.kulakeyboard.sample.utils.DensityUtil
 import kotlinx.android.synthetic.main.activity_chat.*
 
 /**
@@ -31,16 +33,19 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         init()
+        Toast.makeText(this, "键盘高度：${App.instance.keyboardHeight}", Toast.LENGTH_SHORT).show()
     }
 
     private fun init() {
         kulaKeyboardHelper = KulaKeyboardHelper()
         kulaKeyboardHelper.init(this)
-            .setKeyboardHeight(if(App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight() / 5 * 2 else App.instance.keyboardHeight)
             .bindRootLayout(layout_main)
             .bindBodyLayout(layout_body)
             .bindInputPanel(chat_input_panel)
             .bindExpressionPanel(expression_panel)
+            .setKeyboardHeight(
+                if (App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight() / 5 * 2 else App.instance.keyboardHeight
+            )
             .setOnKeyboardStateListener(object : KulaKeyboardHelper.OnKeyboardStateListener {
                 override fun onOpened(keyboardHeight: Int) {
                     App.instance.keyboardHeight = keyboardHeight
@@ -61,9 +66,10 @@ class ChatActivity : AppCompatActivity() {
         recycler_view.adapter = adapter
         scrollToBottom()
 
-        recycler_view.setOnTouchListener{ v, event ->
+        recycler_view.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 kulaKeyboardHelper.reset()
+                return@setOnTouchListener true
             }
             false
         }
@@ -78,10 +84,13 @@ class ChatActivity : AppCompatActivity() {
         kulaKeyboardHelper.release()
     }
 
-    private inner class MsgListAdapter(val context: Context) : RecyclerView.Adapter<MsgListAdapter.ViewHolder>() {
+    private inner class MsgListAdapter(val context: Context) :
+        RecyclerView.Adapter<MsgListAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_msg, parent, false))
+            return ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_msg, parent, false)
+            )
         }
 
         override fun getItemCount(): Int {

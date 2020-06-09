@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <com.freddy.kulakeyboard.library.CExpressionPanel
+        <com.freddy.kulakeyboard.sample.CExpressionPanel
             android:id="@+id/expression_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,8 +45,9 @@
         android:layout_height="48dp"
         android:background="#00bfcf"
         android:gravity="center"
+        android:textStyle="bold"
         android:text="TopBar"
         android:textColor="#000000"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

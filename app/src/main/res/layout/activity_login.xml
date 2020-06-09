@@ -39,6 +39,7 @@
             android:padding="14dp"
             android:textColor="#000000"
             android:textSize="14sp" />
+        <requestFocus />
 
         <EditText
             android:id="@+id/et_verifyCode"

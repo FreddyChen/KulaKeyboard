@@ -1,4 +1,6 @@
-package com.freddy.kulakeyboard.library.bean
+package com.freddy.kulakeyboard.sample.bean
+
+import com.freddy.kulakeyboard.sample.bean.Expression
 
 /**
  * @author  FreddyChen
