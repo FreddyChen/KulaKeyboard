@@ -6,45 +6,45 @@
     android:layout_height="wrap_content"
     tools:parentTag="android.widget.LinearLayout">
 
-    <com.freddy.kulakeyboard.library.CImageButton
+    <com.freddy.kulakeyboard.sample.widget.CImageButton
         android:id="@+id/btn_voice"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="4dp"
         android:visibility="gone"
-        app:kula_kb_cib_normal_image_res_id="@drawable/ic_chat_voice_normal"
-        app:kula_kb_cib_pressed_image_res_id="@drawable/ic_chat_voice_pressed" />
+        app:cib_normal_image_res_id="@drawable/ic_chat_voice_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_voice_pressed" />
 
-    <com.freddy.kulakeyboard.library.CImageButton
+    <com.freddy.kulakeyboard.sample.widget.CImageButton
         android:id="@+id/btn_keyboard"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="4dp"
         android:visibility="gone"
-        app:kula_kb_cib_normal_image_res_id="@drawable/ic_chat_keyboard_normal"
-        app:kula_kb_cib_pressed_image_res_id="@drawable/ic_chat_keyboard_pressed" />
+        app:cib_normal_image_res_id="@drawable/ic_chat_keyboard_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_keyboard_pressed" />
 
-    <com.freddy.kulakeyboard.library.CEditText
+    <com.freddy.kulakeyboard.sample.widget.CEditText
         android:id="@+id/et_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/shape_common_edittext_bg" />
 
-    <com.freddy.kulakeyboard.library.CImageButton
+    <com.freddy.kulakeyboard.sample.widget.CImageButton
         android:id="@+id/btn_expression"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="4dp"
-        app:kula_kb_cib_normal_image_res_id="@drawable/ic_chat_expression_normal"
-        app:kula_kb_cib_pressed_image_res_id="@drawable/ic_chat_expression_pressed" />
+        app:cib_normal_image_res_id="@drawable/ic_chat_expression_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_expression_pressed" />
 
-    <com.freddy.kulakeyboard.library.CImageButton
+    <com.freddy.kulakeyboard.sample.widget.CImageButton
         android:id="@+id/btn_more"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="4dp"
         android:visibility="gone"
-        app:kula_kb_cib_normal_image_res_id="@drawable/ic_chat_more_normal"
-        app:kula_kb_cib_pressed_image_res_id="@drawable/ic_chat_more_pressed" />
+        app:cib_normal_image_res_id="@drawable/ic_chat_more_normal"
+        app:cib_pressed_image_res_id="@drawable/ic_chat_more_pressed" />
 </merge>

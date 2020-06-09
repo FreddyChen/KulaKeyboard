@@ -1,4 +1,4 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
+import com.freddy.kulakeyboard.sample.R
 
 /**
  * @author  FreddyChen
@@ -27,11 +28,12 @@ class CImageButton : AppCompatImageButton {
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         val array =
-            context.obtainStyledAttributes(attrs, R.styleable.CImageButton, defStyleAttr, 0)
+            context.obtainStyledAttributes(attrs,
+                R.styleable.CImageButton, defStyleAttr, 0)
         array.apply {
-            normalImageResId = getResourceId(R.styleable.CImageButton_kula_kb_cib_normal_image_res_id, 0)
-            pressedImageResId = getResourceId(R.styleable.CImageButton_kula_kb_cib_pressed_image_res_id, 0)
-            disabledImageResId = getResourceId(R.styleable.CImageButton_kula_kb_cib_disabled_image_res_id, 0)
+            normalImageResId = getResourceId(R.styleable.CImageButton_cib_normal_image_res_id, 0)
+            pressedImageResId = getResourceId(R.styleable.CImageButton_cib_pressed_image_res_id, 0)
+            disabledImageResId = getResourceId(R.styleable.CImageButton_cib_disabled_image_res_id, 0)
             recycle()
         }
 
@@ -59,7 +61,7 @@ class CImageButton : AppCompatImageButton {
         setImageResource(resId)
     }
 
-    private val mOnTouchListener = OnTouchListener { v, event ->
+    private val mOnTouchListener = OnTouchListener { _, event ->
         if (!isEnabled) {
             return@OnTouchListener false
         }

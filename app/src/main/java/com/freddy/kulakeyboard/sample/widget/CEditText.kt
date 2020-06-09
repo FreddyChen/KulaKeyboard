@@ -1,4 +1,4 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample.widget
 
 import android.content.Context
 import android.text.InputType
@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.freddy.kulakeyboard.library.util.DensityUtil
+import com.freddy.kulakeyboard.sample.R
 
 /**
  * @author  FreddyChen
@@ -38,7 +39,9 @@ class CEditText : AppCompatEditText {
             DensityUtil.dp2px(context, 14.0f),
             DensityUtil.dp2px(context, 8.0f)
         )
-        setTextColor(ContextCompat.getColor(context, R.color.kula_kb_c_000000))
+        setTextColor(ContextCompat.getColor(context,
+            R.color.c_000000
+        ))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         setHorizontallyScrolling(false)
         maxLines = 5

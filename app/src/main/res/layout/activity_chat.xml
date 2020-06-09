@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:background="#333333" />
 
-            <com.freddy.kulakeyboard.library.CInputPanel
+            <com.freddy.kulakeyboard.sample.CInputPanel
                 android:id="@+id/chat_input_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
