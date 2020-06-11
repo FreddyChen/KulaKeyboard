@@ -1,4 +1,4 @@
-package com.freddy.kulakeyboard.library
+package com.freddy.kulakeyboard.sample
 
 import android.content.Context
 import android.text.InputType
@@ -11,6 +11,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.freddy.kulakeyboard.library.IInputPanel
+import com.freddy.kulakeyboard.library.KulaKeyboardHelper
+import com.freddy.kulakeyboard.library.OnInputPanelStateChangedListener
 import com.freddy.kulakeyboard.library.util.DensityUtil
 import com.freddy.kulakeyboard.library.util.UIUtil
 import kotlinx.android.synthetic.main.layout_input_panel.view.*
@@ -66,7 +69,7 @@ class CInputPanel : LinearLayout, IInputPanel {
             DensityUtil.dp2px(context, 6.0f)
         )
         gravity = Gravity.BOTTOM
-        setBackgroundColor(ContextCompat.getColor(context, R.color.kula_kb_c_77cbcbcb))
+        setBackgroundColor(ContextCompat.getColor(context, R.color.c_77cbcbcb))
         et_content.inputType = InputType.TYPE_NULL
         et_content.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {

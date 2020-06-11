@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CImageButton">
+        <attr name="cib_normal_image_res_id" format="reference" />
+        <attr name="cib_pressed_image_res_id" format="reference" />
+        <attr name="cib_disabled_image_res_id" format="reference" />
+    </declare-styleable>
+</resources>
