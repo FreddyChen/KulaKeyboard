@@ -69,7 +69,6 @@ class ChatActivity : AppCompatActivity() {
         recycler_view.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 kulaKeyboardHelper.reset()
-                return@setOnTouchListener true
             }
             false
         }
