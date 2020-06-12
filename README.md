@@ -67,8 +67,7 @@ gif质量比较差，大家将就着看一下。从以上效果对比，我们�
 
 + <font color=#666666>**adjustUnspecified**</font>
     - 说明<br/>
-    **默认值**。不指定是否Activity的主窗口是否调整大小来为软键盘腾出空间或是否平移窗口内容来显示内容焦点（EditText）。如果窗口内容存在可滑动的控件（比如RecyclerView）,那么系统将会选择adjustResize模式将窗口调整大小（重绘RecyclerView）。如果不存在可滑动的控件，那么系统将会将窗口整体向上平移以显示软键盘。也就是说，**如果windowSoftInputMode设置为adjustUnspecified或者不指定任何属性时，系统将会在adjustResize和adjustPan中选择合适的一种**。  
-<br/>
+    **默认值**。不指定是否Activity的主窗口是否调整大小来为软键盘腾出空间或是否平移窗口内容来显示内容焦点（EditText）。如果窗口内容存在可滑动的控件（比如RecyclerView）,那么系统将会选择adjustResize模式将窗口调整大小（重绘RecyclerView）。如果不存在可滑动的控件，那么系统将会将窗口整体向上平移以显示软键盘。也就是说，**如果windowSoftInputMode设置为adjustUnspecified或者不指定任何属性时，系统将会在adjustResize和adjustPan中选择合适的一种**。<br/>
     - 效果展示
 + <font color=#666666>**adjustResize**</font>
     - 说明
