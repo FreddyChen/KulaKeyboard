@@ -67,19 +67,19 @@ gif质量比较差，大家将就着看一下。从以上效果对比，我们�
 
 + <font color=#666666>**adjustUnspecified**</font>
     - 说明  
-    **默认值**。不指定是否Activity的主窗口是否调整大小来为软键盘腾出空间或是否平移窗口内容来显示内容焦点（EditText）。如果窗口内容存在可滑动的控件（比如RecyclerView）,那么系统将会选择adjustResize模式将窗口调整大小（重绘RecyclerView）。如果不存在可滑动的控件，那么系统将会将窗口整体向上平移以显示软键盘。也就是说，**如果windowSoftInputMode设置为adjustUnspecified或者不指定任何属性时，系统将会在adjustResize和adjustPan中选择合适的一种**。
+    **默认值**。不指定是否Activity的主窗口是否调整大小来为软键盘腾出空间或是否平移窗口内容来显示内容焦点（EditText）。如果窗口内容存在可滑动的控件（比如RecyclerView）,那么系统将会选择adjustResize模式将窗口调整大小（重绘RecyclerView）。如果不存在可滑动的控件，那么系统将会将窗口整体向上平移以显示软键盘。也就是说，**如果windowSoftInputMode设置为adjustUnspecified或者不指定任何属性时，系统将会在adjustResize和adjustPan中选择合适的一种**。  
     - 效果展示  
 + <font color=#666666>**adjustResize**</font>
     - 说明  
-    Activity的主窗口总是调整大小来为软键盘腾出空间。如果主窗口存在可滑动的控件，那么系统将会调整该控件大小。如果不存在可滑动的控件，那么系统将会使主窗口布局进行压缩。  
+    Activity的主窗口总是调整大小来为软键盘腾出空间。如果主窗口存在可滑动的控件，那么系统将会调整该控件大小。如果不存在可滑动的控件，那么系统将会使主窗口布局进行压缩。    
     - 效果展示  
 + <font color=#666666>**adjustPan**</font>
     - 说明  
-    主窗口的内容焦点（EditText）如果处在软键盘的高度覆盖的区域时，主窗口自动向上平移直至软键盘不遮挡内容焦点为止，使用户总能看到输入内容的部分。
+    主窗口的内容焦点（EditText）如果处在软键盘的高度覆盖的区域时，主窗口自动向上平移直至软键盘不遮挡内容焦点为止，使用户总能看到输入内容的部分。  
     - 效果展示  
 + <font color=#666666>**adjustNothing**</font>
     - 说明  
-    不作任何反应，不关心软键盘是否遮挡内容焦点（EditText）。
+    不作任何反应，不关心软键盘是否遮挡内容焦点（EditText）。  
     - 效果展示  
 
 以上属性说明，大部分参照网上的介绍加入自己的理解，希望大家能通俗易懂。
