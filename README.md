@@ -21,7 +21,7 @@ Android仿微信键盘输入法/表情/更多面板切换
 
 # **这或许就是你想要的聊天键盘处理方案**
 ## <font color=#0072ff>写在前面</font>
-老规矩，不想看文章的同学可以直接移步到[Github](https://www.baidu.com)
+<font size=8>老规矩，不想看文章的同学可以直接移步到[Github](https://github.com/FreddyChen/KulaKeyboard)</font>
 
 首先跟大家说声抱歉，距离上一篇文章[CEventCenter](https://github.com/FreddyChen/CEventCenter)将近一年了，最近才稍微有点空闲的时间可以写写博客，工作实在太忙，抱歉哈。
 
@@ -85,8 +85,11 @@ gif质量比较差，大家将就着看一下。从以上效果对比，我们�
 以上属性说明，大部分参照网上的介绍加入自己的理解，希望大家能通俗易懂。
 
 ### 切换动画
+从上述属性说明及效果展示可以看到，虽然设置adjustResize可以实现软键盘弹出及输入面板切换到表情面板时Activity主窗口的RecyclerView通过重绘去调整大小以适应，但同时也可以看到软键盘弹出时几乎没有任何动画过渡效果，界面切换非常生硬。当然网上也有不少人的实现方式是使表情面板高度和软键盘一致，这样在输入法面板和表情面板来回切换时避免界面切换效果比较生硬的问题，但软键盘弹出的效果还是非常生硬。  
+
+那么，有没有一种方法可以使切换效果更自然、体验更好呢？答案是肯定的，卖个关子，先听我把最后一个点说完，我们再来分析一下怎么实现。
 ### 利用不可见的PopupWindow获取键盘打开状态及键盘高度
 ## <font color=#0072ff>具体实现</font>
 ## <font color=#0072ff>写在最后</font>
-[Github地址](https://www.baidu.com)  
+[Github地址](https://github.com/FreddyChen/KulaKeyboard)  
 终于写完啦，本来这一块的代码在[KulaChat](https://github.com/FreddyChen/KulaChat) App里面，考虑到有很多同学自己开发IM App，需要实现键盘切换效果，所以就单独把键盘切换封装成一个Module，**项目中有一个Emoji表情的面板实现，支持自定义各种表情面板以及更多面板等**，[Github]()上面有详细的使用方式，如果项目对您有帮助，麻烦点个star，同时欢迎fork和pull request，期待大家与我一起共同完善，为开源社区贡献一点力量。  
