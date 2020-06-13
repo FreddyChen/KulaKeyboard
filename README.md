@@ -31,10 +31,12 @@ Android仿微信键盘输入法/表情/更多面板切换
 
 ## <font color=#0072ff>效果对比</font>
 
-+ **微信**
++ **微信**  
+
 ![微信键盘切换效果](https://freddy-markdown.oss-cn-shenzhen.aliyuncs.com/img/WechatKeyboardSwitch.gif)
 
-+ **KulaKeyboard**
++ **KulaKeyboard**  
+
 ![KulaKeyboard键盘切换效果](https://freddy-markdown.oss-cn-shenzhen.aliyuncs.com/img/KulaKeyboardSwitch.gif)
 
 
