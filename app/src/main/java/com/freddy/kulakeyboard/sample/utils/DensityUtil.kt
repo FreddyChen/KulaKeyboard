@@ -4,16 +4,15 @@ import android.content.Context
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
-import com.freddy.kulakeyboard.sample.App
 import kotlin.math.roundToInt
 
 /**
- * @author  FreddyChen
  * @name
- * @date    2020/06/08 14:45
- * @email   chenshichao@outlook.com
- * @github  https://github.com/FreddyChen
- * @desc
+ * @author      FreddyChen
+ * @date        2020/06/07 01:05
+ * @email       chenshichao@outlook.com
+ * @github      https://github.com/FreddyChen
+ * @describe
  */
 object DensityUtil {
 
@@ -23,8 +22,8 @@ object DensityUtil {
      * @param dpValue
      * @return
      */
-    fun dp2px(dpValue: Float): Int {
-        return (dpValue * getDisplayMetrics().density).roundToInt()
+    fun dp2px(context: Context, dpValue: Float): Int {
+        return (dpValue * getDisplayMetrics(context).density).roundToInt()
     }
 
     /**
@@ -33,8 +32,8 @@ object DensityUtil {
      * @param pxValue
      * @return
      */
-    fun px2dp(pxValue: Float): Int {
-        return (pxValue / getDisplayMetrics().density).roundToInt()
+    fun px2dp(context: Context, pxValue: Float): Int {
+        return (pxValue / getDisplayMetrics(context).density).roundToInt()
     }
 
     /**
@@ -43,10 +42,10 @@ object DensityUtil {
      * @param spVal
      * @return
      */
-    fun sp2px(spVal: Float): Int {
+    fun sp2px(context: Context, spVal: Float): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
-            spVal, App.instance.resources.displayMetrics
+            spVal, context.resources.displayMetrics
         ).roundToInt()
     }
 
@@ -56,12 +55,12 @@ object DensityUtil {
      * @param pxVal
      * @return
      */
-    fun px2sp(pxVal: Float): Float {
-        return pxVal / getDisplayMetrics().scaledDensity
+    fun px2sp(context: Context, pxVal: Float): Float {
+        return pxVal / getDisplayMetrics(context).scaledDensity
     }
 
-    private fun getDisplayMetrics(): DisplayMetrics {
-        val wm = App.instance.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private fun getDisplayMetrics(context: Context): DisplayMetrics {
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
         val metrics = DisplayMetrics()
         display.getMetrics(metrics)
@@ -72,23 +71,23 @@ object DensityUtil {
      * 获取屏幕宽度
      * @return
      */
-    fun getScreenWidth(): Int {
-        return getDisplayMetrics().widthPixels
+    fun getScreenWidth(context: Context): Int {
+        return getDisplayMetrics(context).widthPixels
     }
 
     /**
      * 获取屏幕高度
      * @return
      */
-    fun getScreenHeight(): Int {
-        return getDisplayMetrics().heightPixels
+    fun getScreenHeight(context: Context): Int {
+        return getDisplayMetrics(context).heightPixels
     }
 
     /**
      * 获取像素密度
      * @return
      */
-    fun getDensity(): Float {
-        return getDisplayMetrics().density
+    fun getDensity(context: Context): Float {
+        return getDisplayMetrics(context).density
     }
 }

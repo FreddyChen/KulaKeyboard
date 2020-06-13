@@ -50,7 +50,6 @@ class KeyboardStatePopupWindow(var context: Context, anchorView: View) : PopupWi
         }
         val screenHeight: Int = DensityUtil.getScreenHeight(context)
         //键盘的高度
-        //键盘的高度
         val keyboardHeight = maxHeight - rect.bottom
         val visible = keyboardHeight > screenHeight / 4
         if (!isSoftKeyboardOpened && visible) {

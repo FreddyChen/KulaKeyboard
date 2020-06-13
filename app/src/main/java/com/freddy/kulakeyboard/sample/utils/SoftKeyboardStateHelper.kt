@@ -3,6 +3,7 @@ package com.freddy.kulakeyboard.sample.utils
 import android.graphics.Rect
 import android.view.View
 import android.view.ViewTreeObserver
+import com.freddy.kulakeyboard.sample.App
 import java.util.*
 
 /**
@@ -34,12 +35,16 @@ class SoftKeyboardStateHelper : ViewTreeObserver.OnGlobalLayoutListener {
         activityRootView?.viewTreeObserver?.addOnGlobalLayoutListener(this)
     }
 
+    private var maxHeight = 0
     override fun onGlobalLayout() {
-        val r = Rect()
-        activityRootView!!.getWindowVisibleDisplayFrame(r)
-        val screenHeight: Int = DensityUtil.getScreenHeight()
-        val heightDifference = screenHeight - r.bottom
-        val visible = heightDifference > screenHeight / 4
+        val rect = Rect()
+        activityRootView!!.getWindowVisibleDisplayFrame(rect)
+        if (rect.bottom > maxHeight) {
+            maxHeight = rect.bottom
+        }
+        val screenHeight: Int = DensityUtil.getScreenHeight(App.instance)
+        val heightDifference = maxHeight - rect.bottom
+        val visible = heightDifference > screenHeight / 3
         if (!isSoftKeyboardOpened && visible) {
             isSoftKeyboardOpened = true
             notifyOnSoftKeyboardOpened(heightDifference)

@@ -44,7 +44,7 @@ class ChatActivity : AppCompatActivity() {
             .bindInputPanel(chat_input_panel)
             .bindExpressionPanel(expression_panel)
             .setKeyboardHeight(
-                if (App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight() / 5 * 2 else App.instance.keyboardHeight
+                if (App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight(applicationContext) / 5 * 2 else App.instance.keyboardHeight
             )
             .setOnKeyboardStateListener(object : KulaKeyboardHelper.OnKeyboardStateListener {
                 override fun onOpened(keyboardHeight: Int) {
