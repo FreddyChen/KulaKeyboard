@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
@@ -29,12 +30,14 @@ class KulaKeyboardHelper {
     private var bodyLayout: ViewGroup? = null
     private var inputPanel: IInputPanel? = null
     private var expressionPanel: IPanel? = null
+    private var morePanel: IPanel? = null
     private var keyboardStatePopupWindow: KeyboardStatePopupWindow? = null
 
     companion object {
         var keyboardHeight = 0
         var inputPanelHeight = 0
         var expressionPanelHeight = 0
+        var morePanelHeight = 0
     }
 
     fun init(context: Context): KulaKeyboardHelper {
@@ -48,9 +51,9 @@ class KulaKeyboardHelper {
     }
 
     fun release() {
-        inputPanel?.release()
+        inputPanel?.reset()
         inputPanel = null
-        expressionPanel?.release()
+        expressionPanel?.reset()
         expressionPanel = null
         keyboardStatePopupWindow?.dismiss()
         keyboardStatePopupWindow = null
@@ -58,7 +61,7 @@ class KulaKeyboardHelper {
 
     fun setKeyboardHeight(keyboardHeight: Int): KulaKeyboardHelper {
         KulaKeyboardHelper.keyboardHeight = keyboardHeight
-        if(inputPanelHeight == 0) {
+        if (inputPanelHeight == 0) {
             inputPanelHeight = keyboardHeight
         }
         return this
@@ -79,6 +82,9 @@ class KulaKeyboardHelper {
                 expressionPanel?.apply {
                     expressionPanelHeight = getPanelHeight()
                 }
+                morePanel?.apply {
+                    morePanelHeight = getPanelHeight()
+                }
             }
 
             override fun onClosed() {
@@ -94,22 +100,35 @@ class KulaKeyboardHelper {
         return this
     }
 
-    fun<P : IPanel> bindVoicePanel(panel: P): KulaKeyboardHelper {
+    fun <P : IPanel> bindVoicePanel(panel: P): KulaKeyboardHelper {
         return this
     }
 
-    fun<P : IInputPanel> bindInputPanel(panel: P): KulaKeyboardHelper {
+    fun <P : IInputPanel> bindInputPanel(panel: P): KulaKeyboardHelper {
         this.inputPanel = panel
         inputPanelHeight = panel.getPanelHeight()
         panel.setOnInputStateChangedListener(object : OnInputPanelStateChangedListener {
+            override fun onShowVoicePanel() {
+                if (expressionPanel !is ViewGroup || morePanel !is ViewGroup) return
+                expressionPanel?.let {
+                    it as ViewGroup
+                    it.visibility = View.GONE
+                }
+                morePanel?.let {
+                    it as ViewGroup
+                    it.visibility = View.GONE
+                }
+            }
+
             override fun onShowInputMethodPanel() {
-                if (expressionPanel !is ViewGroup) return
-                GlobalScope.launch(Dispatchers.Main) {
-                    delay(250)
-                    expressionPanel?.let {
-                        it as ViewGroup
-                        it.visibility = View.INVISIBLE
-                    }
+                if (expressionPanel !is ViewGroup || morePanel !is ViewGroup) return
+                expressionPanel?.let {
+                    it as ViewGroup
+                    it.visibility = View.GONE
+                }
+                morePanel?.let {
+                    it as ViewGroup
+                    it.visibility = View.GONE
                 }
             }
 
@@ -120,42 +139,75 @@ class KulaKeyboardHelper {
                     it.visibility = View.VISIBLE
                 }
             }
+
+            override fun onShowMorePanel() {
+                if (morePanel !is ViewGroup) return
+                morePanel?.let {
+                    it as ViewGroup
+                    it.visibility = View.VISIBLE
+                }
+            }
         })
-        panel.setOnLayoutAnimatorHandleListener { fromValue, toValue ->
-            handlePanelMoveAnimator(fromValue, toValue)
+        panel.setOnLayoutAnimatorHandleListener { panelType, lastPanelType, fromValue, toValue ->
+            handlePanelMoveAnimator(panelType, lastPanelType, fromValue, toValue)
         }
         return this
     }
 
-    fun<P : IPanel> bindExpressionPanel(panel: P): KulaKeyboardHelper {
+    fun <P : IPanel> bindExpressionPanel(panel: P): KulaKeyboardHelper {
         this.expressionPanel = panel
         expressionPanelHeight = panel.getPanelHeight()
         return this
     }
 
-    fun<P : IPanel> bindMorePanel(panel: P): KulaKeyboardHelper {
+    fun <P : IPanel> bindMorePanel(panel: P): KulaKeyboardHelper {
+        this.morePanel = panel
+        morePanelHeight = panel.getPanelHeight()
         return this
     }
 
     @SuppressLint("ObjectAnimatorBinding")
-    private fun handlePanelMoveAnimator(fromValue: Float, toValue: Float) {
-        if (bodyLayout == null || expressionPanel == null) {
-            return
-        }
-        if (expressionPanel !is ViewGroup) return
+    private fun handlePanelMoveAnimator(panelType: PanelType, lastPanelType: PanelType, fromValue: Float, toValue: Float) {
+        Log.d("KulaKeyboardHelper", "panelType = $panelType, lastPanelType = $lastPanelType")
         val bodyLayoutTranslationYAnimator: ObjectAnimator =
             ObjectAnimator.ofFloat(bodyLayout, "translationY", fromValue, toValue)
-        val expressionPanelTranslationYAnimator: ObjectAnimator =
-            ObjectAnimator.ofFloat(expressionPanel, "translationY", fromValue, toValue)
+        var panelTranslationYAnimator: ObjectAnimator? = null
+        when(panelType) {
+            PanelType.INPUT_MOTHOD -> {
+                expressionPanel?.reset()
+                morePanel?.reset()
+            }
+            PanelType.VOICE -> {
+                expressionPanel?.reset()
+                morePanel?.reset()
+            }
+            PanelType.EXPRESSION -> {
+                morePanel?.reset()
+                panelTranslationYAnimator = ObjectAnimator.ofFloat(expressionPanel, "translationY", fromValue, toValue)
+            }
+            PanelType.MORE -> {
+                expressionPanel?.reset()
+                panelTranslationYAnimator = ObjectAnimator.ofFloat(morePanel, "translationY", fromValue, toValue)
+            }
+            else -> {}
+        }
         val animatorSet = AnimatorSet()
         animatorSet.duration = 250
         animatorSet.interpolator = DecelerateInterpolator()
-        animatorSet.play(bodyLayoutTranslationYAnimator).with(expressionPanelTranslationYAnimator)
+        if(panelTranslationYAnimator == null) {
+            animatorSet.play(bodyLayoutTranslationYAnimator)
+        }else {
+            animatorSet.play(bodyLayoutTranslationYAnimator).with(panelTranslationYAnimator)
+        }
         animatorSet.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationEnd(animation: Animator) {
                 bodyLayout?.requestLayout()
                 expressionPanel?.let {
+                    it as ViewGroup
+                    it.requestLayout()
+                }
+                morePanel?.let {
                     it as ViewGroup
                     it.requestLayout()
                 }
@@ -172,6 +224,7 @@ class KulaKeyboardHelper {
         this.onKeyboardStateListener = listener
         return this
     }
+
     interface OnKeyboardStateListener {
         fun onOpened(keyboardHeight: Int)
         fun onClosed()

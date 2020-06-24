@@ -22,8 +22,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        softKeyboardStateHelper =
-            SoftKeyboardStateHelper(layout_main)
+        softKeyboardStateHelper = SoftKeyboardStateHelper(layout_main)
         softKeyboardStateHelper.addSoftKeyboardStateListener(object :
             SoftKeyboardStateHelper.SoftKeyboardStateListener {
 

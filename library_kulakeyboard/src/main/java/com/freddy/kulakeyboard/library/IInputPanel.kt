@@ -14,7 +14,7 @@ interface IInputPanel : IPanel {
 
     fun onSoftKeyboardClosed()
 
-    fun setOnLayoutAnimatorHandleListener(listener: ((fromValue: Float, toValue: Float) -> Unit)?)
+    fun setOnLayoutAnimatorHandleListener(listener: ((panelType: PanelType, lastPanelType: PanelType, fromValue: Float, toValue: Float) -> Unit)?)
 
     fun setOnInputStateChangedListener(listener: OnInputPanelStateChangedListener?)
 }

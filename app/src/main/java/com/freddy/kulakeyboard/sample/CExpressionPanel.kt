@@ -88,13 +88,10 @@ class CExpressionPanel : LinearLayout, IPanel {
     }
 
     private val mExpressionPanelInvisibleRunnable =
-        Runnable { visibility = View.INVISIBLE }
+        Runnable { visibility = View.GONE }
 
     override fun reset() {
-        postDelayed(mExpressionPanelInvisibleRunnable, 400)
-    }
-
-    override fun release() {
+        postDelayed(mExpressionPanelInvisibleRunnable, 0)
     }
 
     override fun getPanelHeight(): Int {

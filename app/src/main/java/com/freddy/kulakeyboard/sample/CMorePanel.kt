@@ -12,19 +12,19 @@ import com.freddy.kulakeyboard.library.util.DensityUtil
 /**
  * @author  FreddyChen
  * @name
- * @date    2020/06/09 15:59
+ * @date    2020/06/24 17:19
  * @email   chenshichao@outlook.com
  * @github  https://github.com/FreddyChen
  * @desc
  */
-class CExpressionPanel2 : FrameLayout, IPanel {
+class CMorePanel : FrameLayout, IPanel {
 
     constructor(context: Context) : this(context, null)
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        LayoutInflater.from(context).inflate(R.layout.layout_expression_panel2, this, true)
+        LayoutInflater.from(context).inflate(R.layout.layout_more_panel, this, true)
         init()
     }
 
@@ -42,14 +42,14 @@ class CExpressionPanel2 : FrameLayout, IPanel {
     private fun init() {
     }
 
-    private val mExpressionPanelInvisibleRunnable =
+    private val mMorePanelInvisibleRunnable =
         Runnable { visibility = View.GONE }
 
     override fun reset() {
-        postDelayed(mExpressionPanelInvisibleRunnable, 400)
+        postDelayed(mMorePanelInvisibleRunnable, 0)
     }
 
     override fun getPanelHeight(): Int {
-        return App.instance.keyboardHeight + DensityUtil.dp2px(context, 56.0f)
+        return App.instance.keyboardHeight - DensityUtil.dp2px(context, 56.0f)
     }
 }

@@ -5,4 +5,10 @@
         <attr name="cib_pressed_image_res_id" format="reference" />
         <attr name="cib_disabled_image_res_id" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="CTextButton">
+        <attr name="ctb_normal_text_color" format="color|reference" />
+        <attr name="ctb_pressed_text_color" format="color|reference" />
+        <attr name="ctb_disabled_text_color" format="color|reference" />
+    </declare-styleable>
 </resources>

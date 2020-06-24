@@ -44,7 +44,7 @@ class SoftKeyboardStateHelper : ViewTreeObserver.OnGlobalLayoutListener {
         }
         val screenHeight: Int = DensityUtil.getScreenHeight(App.instance)
         val heightDifference = maxHeight - rect.bottom
-        val visible = heightDifference > screenHeight / 3
+        val visible = heightDifference > screenHeight / 4
         if (!isSoftKeyboardOpened && visible) {
             isSoftKeyboardOpened = true
             notifyOnSoftKeyboardOpened(heightDifference)

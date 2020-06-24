@@ -9,6 +9,8 @@ package com.freddy.kulakeyboard.library
  * @desc
  */
 interface OnInputPanelStateChangedListener {
+    fun onShowVoicePanel()
     fun onShowInputMethodPanel()
     fun onShowExpressionPanel()
+    fun onShowMorePanel()
 }

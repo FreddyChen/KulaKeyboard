@@ -37,6 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="invisible" />
+
+        <com.freddy.kulakeyboard.sample.CMorePanel
+            android:id="@+id/more_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <TextView

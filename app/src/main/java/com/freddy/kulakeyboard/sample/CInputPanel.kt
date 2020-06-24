@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.freddy.kulakeyboard.library.IInputPanel
 import com.freddy.kulakeyboard.library.KulaKeyboardHelper
 import com.freddy.kulakeyboard.library.OnInputPanelStateChangedListener
+import com.freddy.kulakeyboard.library.PanelType
 import com.freddy.kulakeyboard.library.util.DensityUtil
 import com.freddy.kulakeyboard.library.util.UIUtil
 import kotlinx.android.synthetic.main.layout_input_panel.view.*
@@ -56,10 +58,6 @@ class CInputPanel : LinearLayout, IInputPanel {
 
     private var isActive = false
 
-    enum class PanelType {
-        INPUT_MOTHOD, EXPRESSION, MORE, NONE
-    }
-
     private fun init() {
         orientation = HORIZONTAL
         setPadding(
@@ -92,8 +90,28 @@ class CInputPanel : LinearLayout, IInputPanel {
     }
 
     private fun setListeners() {
-        btn_voice.setOnClickListener { }
+        btn_voice.setOnClickListener {
+            btn_expression.setNormalImageResId(R.drawable.ic_chat_expression_normal)
+            btn_expression.setPressedImageResId(R.drawable.ic_chat_expression_pressed)
+            if (lastPanelType == PanelType.VOICE) {
+                btn_voice_pressed.visibility = View.GONE
+                et_content.visibility = View.VISIBLE
+                UIUtil.requestFocus(et_content)
+                UIUtil.showSoftInput(context, et_content)
+                handleAnimator(PanelType.INPUT_MOTHOD)
+                et_content.resetInputType()
+            } else {
+                btn_voice_pressed.visibility = View.VISIBLE
+                et_content.visibility = View.GONE
+                UIUtil.loseFocus(et_content)
+                UIUtil.hideSoftInput(context, et_content)
+                handleAnimator(PanelType.VOICE)
+                onInputPanelStateChangedListener?.onShowVoicePanel()
+            }
+        }
         btn_expression.setOnClickListener {
+            btn_voice_pressed.visibility = View.GONE
+            et_content.visibility = View.VISIBLE
             if (lastPanelType == PanelType.EXPRESSION) {
                 btn_expression.setNormalImageResId(R.drawable.ic_chat_expression_normal)
                 btn_expression.setPressedImageResId(R.drawable.ic_chat_expression_pressed)
@@ -110,7 +128,23 @@ class CInputPanel : LinearLayout, IInputPanel {
                 onInputPanelStateChangedListener?.onShowExpressionPanel()
             }
         }
-        btn_more.setOnClickListener { }
+        btn_more.setOnClickListener {
+            btn_expression.setNormalImageResId(R.drawable.ic_chat_expression_normal)
+            btn_expression.setPressedImageResId(R.drawable.ic_chat_expression_pressed)
+            btn_voice_pressed.visibility = View.GONE
+            et_content.visibility = View.VISIBLE
+            if (lastPanelType == PanelType.MORE) {
+                UIUtil.requestFocus(et_content)
+                UIUtil.showSoftInput(context, et_content)
+                handleAnimator(PanelType.INPUT_MOTHOD)
+                et_content.resetInputType()
+            } else {
+                UIUtil.loseFocus(et_content)
+                UIUtil.hideSoftInput(context, et_content)
+                handleAnimator(PanelType.MORE)
+                onInputPanelStateChangedListener?.onShowMorePanel()
+            }
+        }
         et_content.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 Toast.makeText(context, "发送", Toast.LENGTH_SHORT).show()
@@ -131,13 +165,41 @@ class CInputPanel : LinearLayout, IInputPanel {
         var fromValue = 0.0f
         var toValue = 0.0f
         when (panelType) {
+            PanelType.VOICE -> {
+                when (lastPanelType) {
+                    PanelType.INPUT_MOTHOD -> {
+                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = 0.0f
+                    }
+                    PanelType.EXPRESSION -> {
+                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = 0.0f
+                    }
+                    PanelType.MORE -> {
+                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        toValue = 0.0f
+                    }
+                    PanelType.NONE -> {
+                        fromValue = 0.0f
+                        toValue = 0.0f
+                    }
+                    else -> {
+                    }
+                }
+            }
             PanelType.INPUT_MOTHOD ->
                 when (lastPanelType) {
+                    PanelType.VOICE -> {
+                        fromValue = 0.0f
+                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                    }
                     PanelType.EXPRESSION -> {
                         fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
                         toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
                     }
                     PanelType.MORE -> {
+                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
                     }
                     PanelType.NONE -> {
                         fromValue = 0.0f
@@ -152,7 +214,13 @@ class CInputPanel : LinearLayout, IInputPanel {
                         fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
                         toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
                     }
+                    PanelType.VOICE -> {
+                        fromValue = 0.0f
+                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                    }
                     PanelType.MORE -> {
+                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
                     }
                     PanelType.NONE -> {
                         fromValue = 0.0f
@@ -164,16 +232,29 @@ class CInputPanel : LinearLayout, IInputPanel {
             PanelType.MORE ->
                 when (lastPanelType) {
                     PanelType.INPUT_MOTHOD -> {
+                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                    }
+                    PanelType.VOICE -> {
+                        fromValue = 0.0f
+                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
                     }
                     PanelType.EXPRESSION -> {
+                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
                     }
                     PanelType.NONE -> {
+                        fromValue = 0.0f
+                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
                     }
                     else -> {
                     }
                 }
             PanelType.NONE ->
                 when (lastPanelType) {
+                    PanelType.VOICE -> {
+                        // from 0.0f to 0.0f
+                    }
                     PanelType.INPUT_MOTHOD -> {
                         fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
                         toValue = 0.0f
@@ -183,16 +264,19 @@ class CInputPanel : LinearLayout, IInputPanel {
                         toValue = 0.0f
                     }
                     PanelType.MORE -> {
+                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        toValue = 0.0f
                     }
                     else -> {
                     }
                 }
         }
-        onLayoutAnimatorHandleListener?.invoke(fromValue, toValue)
+        onLayoutAnimatorHandleListener?.invoke(panelType, lastPanelType, fromValue, toValue)
         lastPanelType = panelType
     }
 
-    private var onLayoutAnimatorHandleListener: ((fromValue: Float, toValue: Float) -> Unit)? = null
+    private var onLayoutAnimatorHandleListener: ((panelType: PanelType, lastPanelType: PanelType, fromValue: Float, toValue: Float) -> Unit)? =
+        null
     private var onInputPanelStateChangedListener: OnInputPanelStateChangedListener? = null
     override fun onSoftKeyboardOpened() {
         isKeyboardOpened = true
@@ -209,7 +293,7 @@ class CInputPanel : LinearLayout, IInputPanel {
         }
     }
 
-    override fun setOnLayoutAnimatorHandleListener(listener: ((fromValue: Float, toValue: Float) -> Unit)?) {
+    override fun setOnLayoutAnimatorHandleListener(listener: ((panelType: PanelType, lastPanelType: PanelType, fromValue: Float, toValue: Float) -> Unit)?) {
         this.onLayoutAnimatorHandleListener = listener
     }
 
@@ -231,11 +315,6 @@ class CInputPanel : LinearLayout, IInputPanel {
             handleAnimator(PanelType.NONE)
         }
         isActive = false
-    }
-
-    override fun release() {
-        Log.d(TAG, "release()")
-        reset()
     }
 
     override fun getPanelHeight(): Int {

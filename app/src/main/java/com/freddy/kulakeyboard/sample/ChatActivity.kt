@@ -43,6 +43,7 @@ class ChatActivity : AppCompatActivity() {
             .bindBodyLayout(layout_body)
             .bindInputPanel(chat_input_panel)
             .bindExpressionPanel(expression_panel)
+            .bindMorePanel(more_panel)
             .setKeyboardHeight(
                 if (App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight(applicationContext) / 5 * 2 else App.instance.keyboardHeight
             )

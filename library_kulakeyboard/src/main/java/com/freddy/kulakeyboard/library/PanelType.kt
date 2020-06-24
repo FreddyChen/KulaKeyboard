@@ -3,20 +3,11 @@ package com.freddy.kulakeyboard.library
 /**
  * @author  FreddyChen
  * @name
- * @date    2020/06/08 11:54
+ * @date    2020/06/24 17:35
  * @email   chenshichao@outlook.com
  * @github  https://github.com/FreddyChen
  * @desc
  */
-interface IPanel {
-
-    /**
-     * 重置
-     */
-    fun reset()
-
-    /**
-     * 获取面板高度
-     */
-    fun getPanelHeight(): Int
+enum class PanelType {
+    INPUT_MOTHOD, VOICE, EXPRESSION, MORE, NONE
 }
