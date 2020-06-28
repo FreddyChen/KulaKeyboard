@@ -55,7 +55,7 @@ class KeyboardStatePopupWindow(var context: Context, anchorView: View) : PopupWi
         if (!isSoftKeyboardOpened && visible) {
             isSoftKeyboardOpened = true
             onKeyboardStateListener?.onOpened(keyboardHeight)
-            KulaKeyboardHelper.keyboardHeight = keyboardHeight
+            KeyboardHelper.keyboardHeight = keyboardHeight
         } else if (isSoftKeyboardOpened && !visible) {
             isSoftKeyboardOpened = false
             onKeyboardStateListener?.onClosed()

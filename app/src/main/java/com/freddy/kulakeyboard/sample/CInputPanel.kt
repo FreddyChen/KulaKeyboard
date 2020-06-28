@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.freddy.kulakeyboard.library.IInputPanel
-import com.freddy.kulakeyboard.library.KulaKeyboardHelper
+import com.freddy.kulakeyboard.library.KeyboardHelper
 import com.freddy.kulakeyboard.library.OnInputPanelStateChangedListener
 import com.freddy.kulakeyboard.library.PanelType
 import com.freddy.kulakeyboard.library.util.DensityUtil
@@ -168,15 +168,15 @@ class CInputPanel : LinearLayout, IInputPanel {
             PanelType.VOICE -> {
                 when (lastPanelType) {
                     PanelType.INPUT_MOTHOD -> {
-                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.inputPanelHeight.toFloat()
                         toValue = 0.0f
                     }
                     PanelType.EXPRESSION -> {
-                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.expressionPanelHeight.toFloat()
                         toValue = 0.0f
                     }
                     PanelType.MORE -> {
-                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.morePanelHeight.toFloat()
                         toValue = 0.0f
                     }
                     PanelType.NONE -> {
@@ -191,19 +191,19 @@ class CInputPanel : LinearLayout, IInputPanel {
                 when (lastPanelType) {
                     PanelType.VOICE -> {
                         fromValue = 0.0f
-                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.inputPanelHeight.toFloat()
                     }
                     PanelType.EXPRESSION -> {
-                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
-                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.inputPanelHeight.toFloat()
                     }
                     PanelType.MORE -> {
-                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
-                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.morePanelHeight.toFloat()
+                        toValue = -KeyboardHelper.inputPanelHeight.toFloat()
                     }
                     PanelType.NONE -> {
                         fromValue = 0.0f
-                        toValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.inputPanelHeight.toFloat()
                     }
                     else -> {
                     }
@@ -211,20 +211,20 @@ class CInputPanel : LinearLayout, IInputPanel {
             PanelType.EXPRESSION ->
                 when (lastPanelType) {
                     PanelType.INPUT_MOTHOD -> {
-                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
-                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.expressionPanelHeight.toFloat()
                     }
                     PanelType.VOICE -> {
                         fromValue = 0.0f
-                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.expressionPanelHeight.toFloat()
                     }
                     PanelType.MORE -> {
-                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
-                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.morePanelHeight.toFloat()
+                        toValue = -KeyboardHelper.expressionPanelHeight.toFloat()
                     }
                     PanelType.NONE -> {
                         fromValue = 0.0f
-                        toValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.expressionPanelHeight.toFloat()
                     }
                     else -> {
                     }
@@ -232,20 +232,20 @@ class CInputPanel : LinearLayout, IInputPanel {
             PanelType.MORE ->
                 when (lastPanelType) {
                     PanelType.INPUT_MOTHOD -> {
-                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
-                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.inputPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.morePanelHeight.toFloat()
                     }
                     PanelType.VOICE -> {
                         fromValue = 0.0f
-                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        toValue = -KeyboardHelper.morePanelHeight.toFloat()
                     }
                     PanelType.EXPRESSION -> {
-                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
-                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.expressionPanelHeight.toFloat()
+                        toValue = -KeyboardHelper.morePanelHeight.toFloat()
                     }
                     PanelType.NONE -> {
                         fromValue = 0.0f
-                        toValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        toValue = -KeyboardHelper.morePanelHeight.toFloat()
                     }
                     else -> {
                     }
@@ -256,15 +256,15 @@ class CInputPanel : LinearLayout, IInputPanel {
                         // from 0.0f to 0.0f
                     }
                     PanelType.INPUT_MOTHOD -> {
-                        fromValue = -KulaKeyboardHelper.inputPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.inputPanelHeight.toFloat()
                         toValue = 0.0f
                     }
                     PanelType.EXPRESSION -> {
-                        fromValue = -KulaKeyboardHelper.expressionPanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.expressionPanelHeight.toFloat()
                         toValue = 0.0f
                     }
                     PanelType.MORE -> {
-                        fromValue = -KulaKeyboardHelper.morePanelHeight.toFloat()
+                        fromValue = -KeyboardHelper.morePanelHeight.toFloat()
                         toValue = 0.0f
                     }
                     else -> {
@@ -318,6 +318,6 @@ class CInputPanel : LinearLayout, IInputPanel {
     }
 
     override fun getPanelHeight(): Int {
-        return KulaKeyboardHelper.keyboardHeight
+        return KeyboardHelper.keyboardHeight
     }
 }

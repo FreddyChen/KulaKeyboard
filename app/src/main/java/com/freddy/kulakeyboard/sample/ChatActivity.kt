@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.freddy.kulakeyboard.library.KulaKeyboardHelper
+import com.freddy.kulakeyboard.library.KeyboardHelper
 import com.freddy.kulakeyboard.sample.utils.DensityUtil
 import kotlinx.android.synthetic.main.activity_chat.*
 
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var msgList: ArrayList<String>
-    private lateinit var kulaKeyboardHelper: KulaKeyboardHelper
+    private lateinit var keyboardHelper: KeyboardHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +37,8 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        kulaKeyboardHelper = KulaKeyboardHelper()
-        kulaKeyboardHelper.init(this)
+        keyboardHelper = KeyboardHelper()
+        keyboardHelper.init(this)
             .bindRootLayout(layout_main)
             .bindBodyLayout(layout_body)
             .bindInputPanel(chat_input_panel)
@@ -47,7 +47,7 @@ class ChatActivity : AppCompatActivity() {
             .setKeyboardHeight(
                 if (App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight(applicationContext) / 5 * 2 else App.instance.keyboardHeight
             )
-            .setOnKeyboardStateListener(object : KulaKeyboardHelper.OnKeyboardStateListener {
+            .setOnKeyboardStateListener(object : KeyboardHelper.OnKeyboardStateListener {
                 override fun onOpened(keyboardHeight: Int) {
                     App.instance.keyboardHeight = keyboardHeight
                 }
@@ -69,7 +69,7 @@ class ChatActivity : AppCompatActivity() {
 
         recycler_view.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                kulaKeyboardHelper.reset()
+                keyboardHelper.reset()
             }
             false
         }
@@ -81,7 +81,7 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        kulaKeyboardHelper.release()
+        keyboardHelper.release()
     }
 
     private inner class MsgListAdapter(val context: Context) :

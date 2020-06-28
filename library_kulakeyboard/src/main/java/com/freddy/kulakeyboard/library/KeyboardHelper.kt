@@ -9,11 +9,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
-import com.freddy.kulakeyboard.library.util.DensityUtil
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * @author  FreddyChen
@@ -23,7 +18,7 @@ import kotlinx.coroutines.launch
  * @github  https://github.com/FreddyChen
  * @desc
  */
-class KulaKeyboardHelper {
+class KeyboardHelper {
 
     private lateinit var context: Context
     private var rootLayout: ViewGroup? = null
@@ -40,7 +35,7 @@ class KulaKeyboardHelper {
         var morePanelHeight = 0
     }
 
-    fun init(context: Context): KulaKeyboardHelper {
+    fun init(context: Context): KeyboardHelper {
         this.context = context
         return this
     }
@@ -59,21 +54,21 @@ class KulaKeyboardHelper {
         keyboardStatePopupWindow = null
     }
 
-    fun setKeyboardHeight(keyboardHeight: Int): KulaKeyboardHelper {
-        KulaKeyboardHelper.keyboardHeight = keyboardHeight
+    fun setKeyboardHeight(keyboardHeight: Int): KeyboardHelper {
+        KeyboardHelper.keyboardHeight = keyboardHeight
         if (inputPanelHeight == 0) {
             inputPanelHeight = keyboardHeight
         }
         return this
     }
 
-    fun bindRootLayout(rootLayout: ViewGroup): KulaKeyboardHelper {
+    fun bindRootLayout(rootLayout: ViewGroup): KeyboardHelper {
         this.rootLayout = rootLayout
         keyboardStatePopupWindow = KeyboardStatePopupWindow(context, rootLayout)
         keyboardStatePopupWindow?.setOnKeyboardStateListener(object :
             KeyboardStatePopupWindow.OnKeyboardStateListener {
             override fun onOpened(keyboardHeight: Int) {
-                KulaKeyboardHelper.keyboardHeight = keyboardHeight
+                KeyboardHelper.keyboardHeight = keyboardHeight
                 inputPanel?.onSoftKeyboardOpened()
                 onKeyboardStateListener?.onOpened(keyboardHeight)
                 inputPanel?.apply {
@@ -95,16 +90,16 @@ class KulaKeyboardHelper {
         return this
     }
 
-    fun bindBodyLayout(bodyLayout: ViewGroup): KulaKeyboardHelper {
+    fun bindBodyLayout(bodyLayout: ViewGroup): KeyboardHelper {
         this.bodyLayout = bodyLayout
         return this
     }
 
-    fun <P : IPanel> bindVoicePanel(panel: P): KulaKeyboardHelper {
+    fun <P : IPanel> bindVoicePanel(panel: P): KeyboardHelper {
         return this
     }
 
-    fun <P : IInputPanel> bindInputPanel(panel: P): KulaKeyboardHelper {
+    fun <P : IInputPanel> bindInputPanel(panel: P): KeyboardHelper {
         this.inputPanel = panel
         inputPanelHeight = panel.getPanelHeight()
         panel.setOnInputStateChangedListener(object : OnInputPanelStateChangedListener {
@@ -154,13 +149,13 @@ class KulaKeyboardHelper {
         return this
     }
 
-    fun <P : IPanel> bindExpressionPanel(panel: P): KulaKeyboardHelper {
+    fun <P : IPanel> bindExpressionPanel(panel: P): KeyboardHelper {
         this.expressionPanel = panel
         expressionPanelHeight = panel.getPanelHeight()
         return this
     }
 
-    fun <P : IPanel> bindMorePanel(panel: P): KulaKeyboardHelper {
+    fun <P : IPanel> bindMorePanel(panel: P): KeyboardHelper {
         this.morePanel = panel
         morePanelHeight = panel.getPanelHeight()
         return this
@@ -220,7 +215,7 @@ class KulaKeyboardHelper {
     }
 
     private var onKeyboardStateListener: OnKeyboardStateListener? = null
-    fun setOnKeyboardStateListener(listener: OnKeyboardStateListener?): KulaKeyboardHelper {
+    fun setOnKeyboardStateListener(listener: OnKeyboardStateListener?): KeyboardHelper {
         this.onKeyboardStateListener = listener
         return this
     }

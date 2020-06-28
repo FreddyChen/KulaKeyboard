@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.freddy.kulakeyboard.library.IPanel
-import com.freddy.kulakeyboard.library.KulaKeyboardHelper
 import com.freddy.kulakeyboard.library.util.DensityUtil
 import com.freddy.kulakeyboard.sample.adapter.ExpressionPagerListAdapter
 import com.freddy.kulakeyboard.sample.adapter.ExpressionTypeListAdapter
