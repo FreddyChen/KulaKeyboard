@@ -3,9 +3,9 @@ Android仿微信键盘输入法/表情/更多面板切换
 
 # 效果展示
 
-+ 微信
++ 微信  
 ![微信效果展示](https://freddy-markdown.oss-cn-shenzhen.aliyuncs.com/img/1592060295634.gif)
-+ KulaKeyboard
++ KulaKeyboard  
 ![KulaKeyboard效果展示](https://freddy-markdown.oss-cn-shenzhen.aliyuncs.com/img/1593331059700.gif)
 
 
