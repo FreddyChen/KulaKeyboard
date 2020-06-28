@@ -1,6 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.bintray-release'// 新增
+
+publish {// 新增
+    userOrg = 'freddychen'// 注册bintray时的username
+    groupId = 'com.freddy'// 项目路径
+    artifactId = 'kulakeyboard_lib'// 项目名
+    publishVersion = '1.0.1'// 发布版本号
+    desc = 'An Android IM chat page keyboard switch animation effect solution.'// 项目描述，可选项
+    website = 'https://github.com/FreddyChen/KulaKeyboard'// 项目站点，可选项
+}
 
 android {
     compileSdkVersion 29
