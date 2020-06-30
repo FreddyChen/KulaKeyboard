@@ -112,6 +112,9 @@ keyboardHelper = KeyboardHelper()
 
 QQ交流群：1015178804，目前是Android IM技术交流群，后续写的文章，也会用此群进行交流。
 
+## 最新新开了一个微信公众号，方便后续KulaChat发布一些系列文章，同时也是为了激励自己写作。主要发布一些原创的Android IM相关的文章（也会包含其它方向），不定时更新。感兴趣的同学可以关注一下，谢谢。PS：感觉鸿洋大神提供的公众号文章排版方式，感激不尽~~
+![FreddyChen的微信公众号](https://user-gold-cdn.xitu.io/2020/6/30/1730421cb91b227b?w=430&h=430&f=jpeg&s=41819)
+
 # License
 
 
