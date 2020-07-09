@@ -11,8 +11,8 @@ Android仿微信键盘输入法/表情/更多面板切换
 
 # 使用方式
 
-1. 添加依赖
-   在app build.gradle添加以下依赖：
+1. 添加依赖  
+   在app build.gradle添加以下代码：
    ```
     implementation 'com.freddy:kulakeyboard_lib:1.0.1'   
    ```
