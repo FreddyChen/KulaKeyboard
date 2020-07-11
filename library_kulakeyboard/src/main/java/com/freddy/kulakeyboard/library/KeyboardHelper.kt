@@ -43,13 +43,14 @@ class KeyboardHelper {
     fun reset() {
         inputPanel?.reset()
         expressionPanel?.reset()
+        morePanel?.reset()
     }
 
     fun release() {
-        inputPanel?.reset()
+        reset()
         inputPanel = null
-        expressionPanel?.reset()
         expressionPanel = null
+        morePanel = null
         keyboardStatePopupWindow?.dismiss()
         keyboardStatePopupWindow = null
     }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.freddy.kulakeyboard.library.KeyboardHelper
+import com.freddy.kulakeyboard.library.OnInputPanelStateChangedListener
 import com.freddy.kulakeyboard.sample.utils.DensityUtil
 import kotlinx.android.synthetic.main.activity_chat.*
 
@@ -70,6 +71,25 @@ class ChatActivity : AppCompatActivity() {
             }
             false
         }
+
+        chat_input_panel.setOnInputStateChangedListener(object : OnInputPanelStateChangedListener {
+
+            override fun onShowVoicePanel() {
+                scrollToBottom()
+            }
+
+            override fun onShowInputMethodPanel() {
+                scrollToBottom()
+            }
+
+            override fun onShowExpressionPanel() {
+                scrollToBottom()
+            }
+
+            override fun onShowMorePanel() {
+                scrollToBottom()
+            }
+        })
     }
 
     private fun scrollToBottom() {
