@@ -1,5 +1,6 @@
 package com.freddy.kulakeyboard.sample
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
@@ -13,6 +14,10 @@ import com.freddy.kulakeyboard.library.KeyboardHelper
 import com.freddy.kulakeyboard.library.OnInputPanelStateChangedListener
 import com.freddy.kulakeyboard.sample.utils.DensityUtil
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * @author  FreddyChen
@@ -34,14 +39,20 @@ class ChatActivity : AppCompatActivity() {
         Toast.makeText(this, "键盘高度：${App.instance.keyboardHeight}", Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun init() {
+        msgList = arrayListOf()
+        for (i in 0 until 20) {
+            msgList.add("Msg${i + 1}")
+        }
         keyboardHelper = KeyboardHelper()
         keyboardHelper.init(this)
             .bindRootLayout(layout_main)
-            .bindBodyLayout(layout_body)
+            .bindRecyclerView(recycler_view)
             .bindInputPanel(chat_input_panel)
             .bindExpressionPanel(expression_panel)
             .bindMorePanel(more_panel)
+            .setScrollBodyLayout(msgList.size > 15)
             .setKeyboardHeight(
                 if (App.instance.keyboardHeight == 0) DensityUtil.getScreenHeight(applicationContext) / 5 * 2 else App.instance.keyboardHeight
             )
@@ -54,14 +65,11 @@ class ChatActivity : AppCompatActivity() {
                 }
             })
 
-        msgList = arrayListOf()
-        for (i in 0 until 100) {
-            msgList.add("Msg${i + 1}")
-        }
         recycler_view.setHasFixedSize(true)
         val adapter = MsgListAdapter(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
         scrollToBottom()
 

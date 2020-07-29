@@ -67,7 +67,7 @@ class CInputPanel : LinearLayout, IInputPanel {
             DensityUtil.dp2px(context, 6.0f)
         )
         gravity = Gravity.BOTTOM
-        setBackgroundColor(ContextCompat.getColor(context, R.color.c_77cbcbcb))
+        setBackgroundColor(ContextCompat.getColor(context, R.color.c_cbcbcb))
         et_content.inputType = InputType.TYPE_NULL
         et_content.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {

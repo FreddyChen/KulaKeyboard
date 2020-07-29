@@ -14,7 +14,6 @@
         app:layout_constraintTop_toBottomOf="@id/top_bar">
 
         <LinearLayout
-            android:id="@+id/layout_body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -36,13 +35,15 @@
             android:id="@+id/expression_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:background="#333333"
+            android:visibility="gone" />
 
         <com.freddy.kulakeyboard.sample.CMorePanel
             android:id="@+id/more_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:background="#0072ff"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView

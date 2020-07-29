@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * @author  FreddyChen
@@ -22,11 +23,12 @@ class KeyboardHelper {
 
     private lateinit var context: Context
     private var rootLayout: ViewGroup? = null
-    private var bodyLayout: ViewGroup? = null
+    private var recyclerView: RecyclerView? = null
     private var inputPanel: IInputPanel? = null
     private var expressionPanel: IPanel? = null
     private var morePanel: IPanel? = null
     private var keyboardStatePopupWindow: KeyboardStatePopupWindow? = null
+    private var scrollBodyLayout: Boolean = false
 
     companion object {
         var keyboardHeight = 0
@@ -91,8 +93,8 @@ class KeyboardHelper {
         return this
     }
 
-    fun bindBodyLayout(bodyLayout: ViewGroup): KeyboardHelper {
-        this.bodyLayout = bodyLayout
+    fun bindRecyclerView(recyclerView: RecyclerView): KeyboardHelper {
+        this.recyclerView = recyclerView
         return this
     }
 
@@ -162,11 +164,18 @@ class KeyboardHelper {
         return this
     }
 
+    fun setScrollBodyLayout(scrollBodyLayout: Boolean): KeyboardHelper {
+        this.scrollBodyLayout = scrollBodyLayout
+        return this
+    }
+
     @SuppressLint("ObjectAnimatorBinding")
     private fun handlePanelMoveAnimator(panelType: PanelType, lastPanelType: PanelType, fromValue: Float, toValue: Float) {
         Log.d("KulaKeyboardHelper", "panelType = $panelType, lastPanelType = $lastPanelType")
-        val bodyLayoutTranslationYAnimator: ObjectAnimator =
-            ObjectAnimator.ofFloat(bodyLayout, "translationY", fromValue, toValue)
+        val recyclerViewTranslationYAnimator: ObjectAnimator =
+            ObjectAnimator.ofFloat(recyclerView, "translationY", fromValue, toValue)
+        val inputPanelTranslationYAnimator: ObjectAnimator =
+            ObjectAnimator.ofFloat(inputPanel, "translationY", fromValue, toValue)
         var panelTranslationYAnimator: ObjectAnimator? = null
         when(panelType) {
             PanelType.INPUT_MOTHOD -> {
@@ -191,14 +200,22 @@ class KeyboardHelper {
         animatorSet.duration = 250
         animatorSet.interpolator = DecelerateInterpolator()
         if(panelTranslationYAnimator == null) {
-            animatorSet.play(bodyLayoutTranslationYAnimator)
+            if(scrollBodyLayout) {
+                animatorSet.play(inputPanelTranslationYAnimator).with(recyclerViewTranslationYAnimator)
+            }else {
+                animatorSet.play(inputPanelTranslationYAnimator)
+            }
         }else {
-            animatorSet.play(bodyLayoutTranslationYAnimator).with(panelTranslationYAnimator)
+            if(scrollBodyLayout) {
+                animatorSet.play(inputPanelTranslationYAnimator).with(recyclerViewTranslationYAnimator).with(panelTranslationYAnimator)
+            }else {
+                animatorSet.play(inputPanelTranslationYAnimator).with(panelTranslationYAnimator)
+            }
         }
         animatorSet.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {}
             override fun onAnimationEnd(animation: Animator) {
-                bodyLayout?.requestLayout()
+                recyclerView?.requestLayout()
                 expressionPanel?.let {
                     it as ViewGroup
                     it.requestLayout()
