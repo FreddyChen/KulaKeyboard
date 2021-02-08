@@ -1,0 +1,3 @@
+include ':lib_kulakeyboard'
+include ':app'
+rootProject.name = "KulaKeyboard"

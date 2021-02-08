@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/layout_topBar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="#3e6cce"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TopBar"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/layout_topBar"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recycler_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="#e789ff" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/et"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="54dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="safas"-->
+<!--            android:background="#00ffff"-->
+<!--            android:textSize="18sp"/>-->
+<!--    </LinearLayout>-->
+    <com.freddy.kulakeyboard.lib.KulaWrapLayout
+        android:id="@+id/wrap_kula_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_topBar"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
